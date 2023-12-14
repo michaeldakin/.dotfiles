@@ -3,6 +3,7 @@ export ITERM_ENABLE_SHELL_INTEGRATION_WITH_TMUX=YES
 
 # uh huh
 VIM="nvim"
+alias ll="ls -latr"
 alias vim="nvim"
 alias airport="/System/Library/PrivateFrameworks/Apple80211.framework/Versions/A/Resources/airport"
 alias qo="~/.local/scripts/quickopen"
