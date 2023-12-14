@@ -40,7 +40,11 @@ Realistically including MacOS profile settings should be included such as key re
 - [x] Dump Brew list of applications
     - [ ] Add script to periodically / manually grab Brew apps and upload to git with submodule?
 - [x] Setup Stow
+<<<<<<< HEAD
 - [] Create install script to pushd/stow folders
+=======
+- [ ] Create install script to pushd/stow folders
+>>>>>>> 81122e1 ((chore): more markdown formatting)
     - [ ] Setup git profile with name/email and .gitconfig (Similar to https://github.com/shakeelmohamed/stow-dotfiles/blob/main/git_setup.sh)
     - [ ] Detect MacOS (darwin) or Linux (RHEL) work vps with $XDG_CONFIG_HOME
     - [ ] Include Brew setup inside repo
