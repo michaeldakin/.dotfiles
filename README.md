@@ -1,6 +1,21 @@
 # README
 This repo was originally for my neovim setup, but has been expanded to contain the majority of my current MacOS setup.
 
+# Stow
+This branch now uses GNU Stow to manage my dotfiles and symlinks them to ~/ or $XDG_CONFIG_HOME.
+The version of Stow installed on MacOS Sonoma is 2.3.1 and has a slightly different setup than prior versions which used -D or --dotfiles.
+
+To use this version of Stow, the setup is as following
+~/.dotfiles
+           /config
+                  /.config
+           /local
+                 /.local
+           /tmux
+                /.tmux
+           /zsh
+                /.zsh
+
 # Instructions
 1. Install Git
 - Pull this repo `git clone https://github.com/michaeldakin/.dotfiles.git ~/.dotfiles`
