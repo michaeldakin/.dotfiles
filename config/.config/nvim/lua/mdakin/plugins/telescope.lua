@@ -10,7 +10,7 @@ return {
     },
     keys = {
         { '<leader>pf', function() require('telescope.builtin').find_files() end, { desc = '(pf) Find files' } },
-        { '<C-p>',      function() require('telescope.builtin').git_files() end,  { desc = '(C-p) Git files' } },
+        { '<leader>gf', function() require('telescope.builtin').git_files() end,  { desc = '(C-p) Git files' } },
         { '<leader>ht', function() require('telescope.builtin').help_tags() end,  { desc = '(vh) Help tags' } },
         { '<leader>u',  '<cmd>Telescope undo<cr>',                                { desc = 'undo history' } },
         { '<leader>ps',
@@ -41,12 +41,14 @@ return {
                     fuzzy = true,
                     override_generic_sorter = true, -- override the generic sorter
                     override_file_sorter = true,    -- override the file sorter
-                    case_mode = 'smart_case',       -- or 'ignore_case' or 'respect_case'
-                    -- the default case_mode is 'smart_case'
                 },
                 notify = {},
                 undo = {
-                    -- telescope-undo.nvim config, see below
+                    side_by_side = true,
+                    layout_strategy = "vertical",
+                    layout_config = {
+                        preview_height = 0.8,
+                    },
                 },
             },
             playground = {
@@ -74,3 +76,4 @@ return {
         require('telescope').load_extension('undo')
     end,
 }
+
