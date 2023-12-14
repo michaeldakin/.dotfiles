@@ -35,13 +35,13 @@ A goal for this repo is to have my current MacOS running config in one place and
 Realistically including MacOS profile settings should be included such as key repeat, keyboard focus etc.
 
 ## Todo list
-- [x] Move ~~ all ~~ current used application configurations consolidated into ~~ ~/.config ~~ ~/.dotfiles directory
+- [x] Move ~~all~~ current used application configurations consolidated into ~~~/.config~~ ~/.dotfiles directory
     - [ ] Generate list of apps which arent installed via Brew
 - [x] Dump Brew list of applications
     - [ ] Add script to periodically / manually grab Brew apps and upload to git with submodule?
 - [x] Setup Stow
 - [ ] Create install script to pushd/stow folders
-    - [ ] Setup git profile with name/email and .gitconfig (Similar to https://github.com/shakeelmohamed/stow-dotfiles/blob/main/git_setup.sh)
+    - [ ] Setup git profile with name/email and .gitconfig - Similar to shakeelmohamed [git_setup.sh](https://github.com/shakeelmohamed/stow-dotfiles/blob/main/git_setup.sh)
     - [ ] Detect MacOS (darwin) or Linux (RHEL) work vps with $XDG_CONFIG_HOME
     - [ ] Include Brew setup inside repo
     - [ ] Determine Neovim stable vs HEAD branch based off installed packages (make, curl-devel, git, etc)
