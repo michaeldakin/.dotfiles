@@ -1,0 +1,38 @@
+# Brew setup
+tap "homebrew/bundle"
+tap "homebrew/cask-fonts"
+
+# Brew
+# Important ones go first
+brew "neovim", args: ["HEAD"]
+brew "ripgrep"
+brew "tmux"
+brew "reattach-to-user-namespace"
+brew "go"
+brew "python@3.12"
+brew "bat"
+brew "dog"
+brew "dos2unix"
+brew "fd"
+brew "fzf"
+brew "git"
+brew "htop"
+brew "jq"
+brew "openssl@3"
+brew "pnpm"
+brew "sqlite"
+brew "sqlite-utils"
+brew "wget"
+brew "whatmask" # networking cidr tool
+brew "jpeg-xl"
+
+# Casks
+cask "firefox"
+cask "iterm2"
+cask "alt-tab"
+cask "background-music"
+cask "devutils"
+cask "qview"
+cask "git-credential-manager"
+cask "hot"
+cask "raycast"

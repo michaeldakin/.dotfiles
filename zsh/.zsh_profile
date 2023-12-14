@@ -1,0 +1,18 @@
+# Enable shell integration
+export ITERM_ENABLE_SHELL_INTEGRATION_WITH_TMUX=YES
+
+# uh huh
+VIM="nvim"
+alias vim="nvim"
+alias airport="/System/Library/PrivateFrameworks/Apple80211.framework/Versions/A/Resources/airport"
+alias qo="~/.local/scripts/quickopen"
+alias wm="/usr/local/bin/whatmask"
+
+# who needs hostnames
+alias plex="ssh mike@172.16.1.11"
+alias media="ssh mike@172.16.1.12"
+
+# Trying this stuff out but eh?
+alias tplex="ssh -t mike@172.16.1.11 'tmux -CC new -A -s main'"
+alias tmedia="ssh -t mike@172.16.1.12 'tmux -CC new -A -s main'"
+

@@ -1,0 +1,70 @@
+#!/usr/bin/python3
+import os
+import sys
+import re
+from functools import cached_property, reduce
+from curses import wrapper
+import argparse
+
+class Case:
+    SF_URL = "https://portal.nutanix.com/page/search/list?stq="
+    KB_URL = "https://portal.nutanix.com/kb"
+    ENG_URL = "https://jira.nutanix.com/browse/ENG-"
+    ONCALL_URL = "https://jira.nutanix.com/browse/ONCALL-"
+    TH_URL = "https://jira.nutanix.com/browse/TH-"
+    DISPATCH_URL = "https://portal.nutanix.com/page/smart-support/dispatches/list?search="
+    JQL_URL = "https://jira.nutanix.com/secure/QuickSearch.jspa?searchString="
+
+    INT_RE = re.compile(r"(\d+)")
+
+    def __init__(self, case_str):
+        self.case_str = case_str
+        self._jql = False
+        int_like = self.INT_RE.search(case_str)
+
+        try:
+            self.num = int_like and int(int_like.groups()[0])
+        except ValueError:
+            self.num = None
+
+        self._kb = case_str.lower().startswith("kb")
+        self._eng = case_str.lower().startswith("eng")
+        self._dispatch = case_str.lower().startswith("dp")
+        self._oncall = case_str.lower().startswith("oncall")
+        self._th = case_str.lower().startswith("th")
+        if self.num is None:
+            self._jql = True
+
+    @cached_property
+    def url(self):
+        if self._eng:
+            return f"{self.ENG_URL}{self.num}"
+        elif self._kb:
+            return f"{self.KB_URL}/{self.num}"
+        elif self._dispatch:
+            return f"{self.DISPATCH_URL}{self.num}"
+        elif self._oncall:
+            return f"{self.ONCALL_URL}{self.num}"
+        elif self._th:
+            return f"{self.TH_URL}{self.num}"
+        elif self._jql:
+            return f"{self.JQL_URL}'{self.case_str}'"
+        else:
+            return f"{self.SF_URL}{self.num}"
+
+    def open_with_finder(self):
+        if self.num or self._jql:
+            #os.system(f"xdg-open {self.url} > /dev/null 2>&1 &")
+            print(self.url)
+            os.system(f"open {self.url} > /dev/null 2>&1 &")
+        if self.case_str.lower() == "clear":
+            os.system("clear")
+
+
+if __name__ == "__main__":
+    if args := sys.argv[1:]:
+        [Case(c).open_with_finder() for c in args]
+    else:
+        while True:
+            Case(input("Case# ")).open_with_finder()
+
