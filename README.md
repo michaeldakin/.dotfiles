@@ -6,15 +6,16 @@ This branch now uses GNU Stow to manage my dotfiles and symlinks them to ~/ or $
 The version of Stow installed on MacOS Sonoma is 2.3.1 and has a slightly different setup than prior versions which used -D or --dotfiles.
 
 To use this version of Stow, the setup is as following
-``` ~/.dotfiles
-           /config
-                  /.config
-           /local
-                 /.local
-           /tmux
-                /.tmux
-           /zsh
-                /.zsh
+```
+~/.dotfiles
+    /config
+        /.config
+    /local
+        /.local
+    /tmux
+        /.tmux
+    /zsh
+        /.zsh
 ```
 
 # Instructions
