@@ -27,7 +27,7 @@ require('lazy').setup({
   },
   checker = { enabled = true },
   install = {
-	colorscheme = { 'tokyonight', 'rose-pine' }
+	colorscheme = { "catppuccin" }-- colorscheme = { 'tokyonight', 'rose-pine' }
   },
   ui = {
     size = { width = 0.8, height = 0.8 },
@@ -50,11 +50,8 @@ require('lazy').setup({
   },
 })
 
--- imoprt lsp config
 require('mdakin.utils.lsp')
 require('mdakin.utils.harpoon')
-
--- import autocmd after Lazy
 require('mdakin.config.autocmds')
 
 

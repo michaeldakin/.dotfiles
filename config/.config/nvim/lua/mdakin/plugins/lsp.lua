@@ -24,15 +24,17 @@ return {
         dependencies = {
             { 'hrsh7th/cmp-nvim-lsp' },
         },
-        inlay_hints = {
-            enabled = false,
-        },
     },
-    -- Autocompletion
     {
         'hrsh7th/nvim-cmp',
+        event = { "InsertEnter", "CmdlineEnter" },
         dependencies = {
             { 'L3MON4D3/LuaSnip' }
         },
+    },
+    {
+        'windwp/nvim-autopairs',
+        event = "InsertEnter",
+        opts = {} -- this is equalent to setup({}) function
     },
 }

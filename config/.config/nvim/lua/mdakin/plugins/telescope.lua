@@ -13,6 +13,8 @@ return {
         { '<leader>gf', function() require('telescope.builtin').git_files() end,  { desc = '(C-p) Git files' } },
         { '<leader>ht', function() require('telescope.builtin').help_tags() end,  { desc = '(vh) Help tags' } },
         { '<leader>u',  '<cmd>Telescope undo<cr>',                                { desc = 'undo history' } },
+        { '<leader>bf', function() require('telescope.builtin').buffers() end,    { desc = '(TS) Buffers' } },
+        { '<leader>lg', function() require('telescope.builtin').live_grep() end,   { desc = '(TS) live grep a string' } },
         { '<leader>ps',
             function()
                 require('telescope.builtin').grep_string({
