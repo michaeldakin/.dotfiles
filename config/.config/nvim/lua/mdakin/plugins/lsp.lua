@@ -2,8 +2,8 @@ return {
     {
         'williamboman/mason.nvim',
         cmd = "Mason",
-        keys = { { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" } },
         build = ":MasonUpdate",
+        lazy = false,
         opts = {
             ensure_installed = {
                 "stylua",
@@ -11,30 +11,322 @@ return {
             },
         },
     },
-    { 'williamboman/mason-lspconfig.nvim' },
     {
         'VonHeikemen/lsp-zero.nvim',
         branch = 'v3.x',
-        lazy = true,
+        lazy = false,
         config = false,
-    },
-    -- LSP Support
-    {
-        'neovim/nvim-lspconfig',
-        dependencies = {
-            { 'hrsh7th/cmp-nvim-lsp' },
-        },
+        init = function()
+            vim.g.lsp_zero_extend_cmp = 0
+            vim.g.lsp_zero_extend_lspconfig = 0
+        end,
     },
     {
         'hrsh7th/nvim-cmp',
         event = { "InsertEnter", "CmdlineEnter" },
         dependencies = {
-            { 'L3MON4D3/LuaSnip' }
+            {
+                'L3MON4D3/LuaSnip',
+                'saadparwaiz1/cmp_luasnip',
+                'rafamadriz/friendly-snippets',
+                'hrsh7th/cmp-nvim-lsp',
+                'hrsh7th/cmp-path',
+                'hrsh7th/cmp-buffer',
+                'hrsh7th/cmp-cmdline',
+            },
         },
+        config = function()
+            local lsp_zero = require("lsp-zero")
+            lsp_zero.extend_cmp()
+
+            local cmp = require("cmp")
+            local cmp_action = lsp_zero.cmp_action()
+            local cmp_select_opts = { behavior = cmp.SelectBehavior.Select }
+
+            require("luasnip.loaders.from_vscode").lazy_load()
+
+            local preferred_sources = {
+                { name = "luasnip" },
+                { name = "nvim_lsp" },
+                { name = "nvim_lua" },
+                { name = "path" },
+            }
+            cmp.setup.buffer({
+                sources = cmp.config.sources(preferred_sources),
+            })
+
+            -- local function tooBig(bufnr)
+            --     local max_filesize = 10 * 1024 -- 100 KB
+            --     local check_stats = (vim.uv or vim.loop).fs_stat
+            --     local ok, stats = pcall(check_stats, vim.api.nvim_buf_get_name(bufnr))
+            --     if ok and stats and stats.size > max_filesize then
+            --         return true
+            --     else
+            --         return false
+            --     end
+            -- end
+            -- vim.api.nvim_create_autocmd("BufRead", {
+            --     group = vim.api.nvim_create_augroup("CmpBufferDisableGrp", { clear = true }),
+            --     callback = function(ev)
+            --         local sources = preferred_sources
+            --         if not tooBig(ev.buf) then
+            --             sources[#sources + 1] = { name = "buffer", keyword_length = 4 }
+            --         end
+            --         cmp.setup.buffer({
+            --             sources = cmp.config.sources(sources),
+            --         })
+            --     end,
+            -- })
+
+            cmp.setup({
+                mapping = {
+                    ["<C-p>"] = cmp.mapping.select_prev_item(cmp_select_opts),
+                    ["<C-n>"] = cmp.mapping.select_next_item(cmp_select_opts),
+                    ["<C-y>"] = cmp.mapping.confirm({ select = true }),
+                    ["<CR>"] = cmp.mapping.confirm({ select = true }),
+                    ["<C-Space>"] = cmp.mapping.complete({}),
+                    ["<C-e>"] = cmp.mapping.abort(),
+                    ["<C-u>"] = cmp.mapping.scroll_docs(-4),
+                    ["<C-d>"] = cmp.mapping.scroll_docs(4),
+                    ["<Tab>"] = cmp_action.luasnip_jump_forward(),
+                    ["<S-Tab>"] = cmp_action.luasnip_jump_backward(),
+                },
+                preselect = "item",
+                completion = {
+                    completeopt = "menu,menuone,noinsert",
+                },
+                formatting = {
+                    fields = { "abbr", "kind", "menu" },
+                    expandable_indicator = true,
+                },
+                window = {
+                    completion = cmp.config.window.bordered(),
+                    documentation = cmp.config.window.bordered(),
+                },
+                experimental = {
+                    ghost_text = true, -- yeah boi
+                },
+                sources = cmp.config.sources({
+                    { name = "luasnip" },
+                    { name = "nvim_lsp" },
+                    { name = "nvim_lua" },
+                    { name = "path" },
+                    { name = "buffer",  keyword_length = 4 },
+                }),
+            })
+
+            cmp.setup.cmdline(":", {
+                mapping = cmp.mapping.preset.cmdline({
+                    ["<Tab>"] = cmp.mapping(function(fallback)
+                        if cmp.visible() then
+                            local entry = cmp.get_selected_entry()
+                            if not entry then
+                                cmp.select_next_item({ cmp_select_opts })
+                            else
+                                cmp.confirm()
+                            end
+                        else
+                            fallback()
+                        end
+                    end, { "i", "s", "c" }),
+                }),
+                sources = cmp.config.sources({
+                    { name = "cmdline" },
+                    { name = "path" },
+                }),
+                window = {
+                    completion = cmp.config.window.bordered(),
+                },
+            })
+        end
     },
     {
-        'windwp/nvim-autopairs',
-        event = "InsertEnter",
-        opts = {} -- this is equalent to setup({}) function
+        'neovim/nvim-lspconfig',
+        cmd = { "LspInfo", "LspInstall", "LspStart" },
+        event = { "BufReadPre", "BufNewFile" },
+        dependencies = {
+            'williamboman/mason-lspconfig.nvim',
+            'hrsh7th/cmp-nvim-lsp',
+            "folke/neodev.nvim",
+        },
+        config = function()
+            local lsp_zero = require("lsp-zero")
+            lsp_zero.extend_lspconfig()
+
+            lsp_zero.on_attach(function(client, bufnr)
+                if client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint ~= nil then
+                    vim.keymap.set("n", "<leader>in", function()
+                        vim.lsp.inlay_hint.enable(bufnr, not vim.lsp.inlay_hint.is_enabled(bufnr)) -- toggle
+                    end, { desc = "Lsp-[In]layhints Toggle", buffer = bufnr })
+
+                    local inlay_hint_grp = vim.api.nvim_create_augroup("InlayHintsInInsert", { clear = true })
+
+                    vim.api.nvim_create_autocmd("InsertLeave", {
+                        group = inlay_hint_grp,
+                        pattern = "*",
+                        callback = function()
+                            vim.lsp.inlay_hint.enable(bufnr, false)
+                        end,
+                        desc = "Hide inlay hints",
+                    })
+
+                    vim.api.nvim_create_autocmd("InsertEnter", {
+                        group = inlay_hint_grp,
+                        pattern = "*",
+                        callback = function()
+                            vim.lsp.inlay_hint.enable(bufnr, true)
+                        end,
+                        desc = "Show inlay hints",
+                    })
+                end
+            end)
+            -- for versions <= 0.9.4
+            lsp_zero.set_sign_icons({
+                error = "",
+                warn = "",
+                hint = "",
+                info = "",
+            })
+
+            vim.diagnostic.config({
+                virtual_text = true,
+                -- for nightly builds
+                signs = {
+                    text = {
+                        [vim.diagnostic.severity.ERROR] = "",
+                        [vim.diagnostic.severity.WARN] = "",
+                        [vim.diagnostic.severity.INFO] = "",
+                        [vim.diagnostic.severity.HINT] = "",
+                    },
+                    numhl = {
+                        [vim.diagnostic.severity.ERROR] = "DiagnosticError",
+                        [vim.diagnostic.severity.WARN] = "DiagnosticWarning",
+                        [vim.diagnostic.severity.INFO] = "DiagnosticInfo",
+                        [vim.diagnostic.severity.HINT] = "DiagnosticHint",
+                    },
+                },
+                update_in_insert = false,
+                underline = false,
+                severity_sort = true,
+                float = {
+                    focusable = false,
+                    style = "minimal",
+                    border = "rounded",
+                    source = "always",
+                    header = "",
+                    prefix = "",
+                },
+            })
+            require("neodev").setup({
+                -- see https://github.com/rcarriga/nvim-dap-ui
+                library = { plugins = { "nvim-dap-ui" }, types = true },
+            })
+            local lspconfig = require("lspconfig")
+            local lspCapabilities = vim.lsp.protocol.make_client_capabilities()
+            -- lspCapabilities.textDocument.completion.completionItem.snippetSupport = true
+            require("mason").setup({})
+            require("mason-lspconfig").setup({
+                ensure_installed = {
+                    "bashls",
+                    "cssls",
+                    "html",
+                    "jsonls",
+                    "lua_ls",
+                    "rust_analyzer",
+                    "tsserver",
+                    "cmake",
+                    "pyright",
+                },
+                handlers = {
+                    lsp_zero.default_setup,
+                    lua_ls = function()
+                        local nvim_lua_opts = lsp_zero.nvim_lua_ls()
+                        local lua_opts = {
+                            settings = {
+                                Lua = {
+                                    diagnostics = {
+                                        globals = { "vim", "describe", "it", "assert" },
+                                    },
+                                    hint = {
+                                        enable = true,
+                                        arrayIndex = "Disable",
+                                        paramName = "All",
+                                        paramType = true,
+                                    },
+                                    telemetry = {
+                                        enable = false,
+                                    },
+                                    workspace = {
+                                        checkThirdParty = false,
+                                    },
+                                },
+                            },
+                        }
+                        lspconfig.lua_ls.setup(vim.tbl_extend("force", nvim_lua_opts, lua_opts))
+                    end,
+                    tsserver = function()
+                        lspconfig.tsserver.setup({
+                            settings = {
+                                typescript = {
+                                    inlayHints = {
+                                        includeInlayParameterNameHints = "all",
+                                        includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+                                        includeInlayFunctionParameterTypeHints = true,
+                                        includeInlayVariableTypeHints = false,
+                                        includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+                                        includeInlayPropertyDeclarationTypeHints = true,
+                                        includeInlayFunctionLikeReturnTypeHints = true,
+                                        includeInlayEnumMemberValueHints = true,
+                                    },
+                                },
+                                javascript = {
+                                    inlayHints = {
+                                        includeInlayParameterNameHints = "all",
+                                        includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+                                        includeInlayFunctionParameterTypeHints = true,
+                                        includeInlayVariableTypeHints = false,
+                                        includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+                                        includeInlayPropertyDeclarationTypeHints = true,
+                                        includeInlayFunctionLikeReturnTypeHints = true,
+                                        includeInlayEnumMemberValueHints = true,
+                                    },
+                                },
+                            },
+                        })
+                    end,
+                    html = function()
+                        lspconfig.html.setup({
+                            filetypes = { "html", "ejs" },
+                        })
+                    end,
+                    pyright = function()
+                        lspconfig.pyright.setup({
+                            capabilities = lspCapabilities,
+                        })
+                    end,
+                },
+            })
+
+            local luasnip = require("luasnip")
+
+            -- local luasnip_fix_augroup =
+            --     vim.api.nvim_create_augroup("LuaSnipHistory", { clear = true })
+            -- vim.api.nvim_create_autocmd("ModeChanged", {
+            --     pattern = "*",
+            --     callback = function()
+            --         if
+            --             (
+            --                 (vim.v.event.old_mode == "s" and vim.v.event.new_mode == "n")
+            --                 or vim.v.event.old_mode == "i"
+            --             )
+            --             and luasnip.session.current_nodes[vim.api.nvim_get_current_buf()]
+            --             and not luasnip.session.jump_active
+            --         then
+            --             luasnip.unlink_current()
+            --         end
+            --     end,
+            --     group = luasnip_fix_augroup,
+            -- })
+        end,
     },
 }
