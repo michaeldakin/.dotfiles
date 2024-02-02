@@ -1,0 +1,34 @@
+# https://alacritty.org/config-alacritty.html
+# Alacrity 0.13 moved from .YML to .TOML (yay)
+import = ["~/.config/alacritty/catppuccin-macchiato.toml"]
+
+live_config_reload = true
+
+[window]
+decorations = "none"
+opacity = 1
+dynamic_title = true
+dynamic_padding = true
+padding = { x = 5, y = 0 }
+
+[env]
+TERM = "xterm-256color"
+
+[scrolling]
+history = 10000 # Default
+multiplier = 3
+
+[font]
+size = 14
+
+[font.normal]
+family = "MesloLGL Nerd Font"
+style = "Regular"
+
+[[hints.enabled]]
+command = "open"
+hyperlinks = true
+post_processing = true
+regex = "(INFO|WARN|ERROR|CRITICAL|DEBUG|ipfs:|ipns:|magnet:|mailto:|gemini:|gopher:|https:|http:|news:|file:|git:|ssh:|ftp:)[^\u0000-\u001F\u007F-<>\"\\s{-}\\^⟨⟩`]+"
+binding = { key = "U", mods = "Control|Shift" }
+mouse = { mods = "None", enabled = true }
