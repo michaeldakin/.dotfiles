@@ -4,3 +4,5 @@ config/.config/raycast.bak/
 config/.config/karabiner/
 
 
+/config/.config/borders/bordersrc
+/config/.config/configstore/update-notifier-yo.json
