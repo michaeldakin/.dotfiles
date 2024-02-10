@@ -1,13 +1,10 @@
 return {
     'akinsho/toggleterm.nvim',
     version = '*',
-    keys = { [[<C-\>]] },
-
-    -- See :help toggleterm-roadmap
     opts = {
-        -- open_mapping = '<C-g>',
-        open_mapping = [[<C-\>]],
-        direction = 'horizontal',
-        shade_terminals = true
+        open_mapping = '<C-g>',
+        direction = 'float',
+        -- shade_terminals = true
+        start_in_insert = true,
     },
 }

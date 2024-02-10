@@ -55,29 +55,6 @@ return {
                 sources = cmp.config.sources(preferred_sources),
             })
 
-            -- local function tooBig(bufnr)
-            --     local max_filesize = 10 * 1024 -- 100 KB
-            --     local check_stats = (vim.uv or vim.loop).fs_stat
-            --     local ok, stats = pcall(check_stats, vim.api.nvim_buf_get_name(bufnr))
-            --     if ok and stats and stats.size > max_filesize then
-            --         return true
-            --     else
-            --         return false
-            --     end
-            -- end
-            -- vim.api.nvim_create_autocmd("BufRead", {
-            --     group = vim.api.nvim_create_augroup("CmpBufferDisableGrp", { clear = true }),
-            --     callback = function(ev)
-            --         local sources = preferred_sources
-            --         if not tooBig(ev.buf) then
-            --             sources[#sources + 1] = { name = "buffer", keyword_length = 4 }
-            --         end
-            --         cmp.setup.buffer({
-            --             sources = cmp.config.sources(sources),
-            --         })
-            --     end,
-            -- })
-
             cmp.setup({
                 mapping = {
                     ["<C-p>"] = cmp.mapping.select_prev_item(cmp_select_opts),
@@ -88,8 +65,8 @@ return {
                     ["<C-e>"] = cmp.mapping.abort(),
                     ["<C-u>"] = cmp.mapping.scroll_docs(-4),
                     ["<C-d>"] = cmp.mapping.scroll_docs(4),
-                    ["<Tab>"] = cmp_action.luasnip_jump_forward(),
-                    ["<S-Tab>"] = cmp_action.luasnip_jump_backward(),
+                    -- ["<Tab>"] = cmp_action.luasnip_jump_forward(),
+                    -- ["<S-Tab>"] = cmp_action.luasnip_jump_backward(),
                 },
                 preselect = "item",
                 completion = {
@@ -115,29 +92,29 @@ return {
                 }),
             })
 
-            cmp.setup.cmdline(":", {
-                mapping = cmp.mapping.preset.cmdline({
-                    ["<Tab>"] = cmp.mapping(function(fallback)
-                        if cmp.visible() then
-                            local entry = cmp.get_selected_entry()
-                            if not entry then
-                                cmp.select_next_item({ cmp_select_opts })
-                            else
-                                cmp.confirm()
-                            end
-                        else
-                            fallback()
-                        end
-                    end, { "i", "s", "c" }),
-                }),
-                sources = cmp.config.sources({
-                    { name = "cmdline" },
-                    { name = "path" },
-                }),
-                window = {
-                    completion = cmp.config.window.bordered(),
-                },
-            })
+            -- cmp.setup.cmdline(":", {
+            --     mapping = cmp.mapping.preset.cmdline({
+            --         ["<Tab>"] = cmp.mapping(function(fallback)
+            --             if cmp.visible() then
+            --                 local entry = cmp.get_selected_entry()
+            --                 if not entry then
+            --                     cmp.select_next_item({ cmp_select_opts })
+            --                 else
+            --                     cmp.confirm()
+            --                 end
+            --             else
+            --                 fallback()
+            --             end
+            --         end, { "i", "s", "c" }),
+            --     }),
+            --     sources = cmp.config.sources({
+            --         { name = "cmdline" },
+            --         { name = "path" },
+            --     }),
+            --     window = {
+            --         completion = cmp.config.window.bordered(),
+            --     },
+            -- })
         end
     },
     {
@@ -180,6 +157,7 @@ return {
                     })
                 end
             end)
+            --
             -- for versions <= 0.9.4
             lsp_zero.set_sign_icons({
                 error = "",
@@ -307,7 +285,7 @@ return {
                 },
             })
 
-            local luasnip = require("luasnip")
+            require("luasnip")
 
             -- local luasnip_fix_augroup =
             --     vim.api.nvim_create_augroup("LuaSnipHistory", { clear = true })

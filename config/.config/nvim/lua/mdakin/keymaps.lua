@@ -57,3 +57,10 @@ vim.keymap.set("v", ">", ">gv")
 
 -- Highlights under cursor
 vim.keymap.set("n", "<leader>ui", vim.show_pos, { desc = "Inspect Pos" })
+
+-- fabulous go stuff
+vim.keymap.set(
+    "n",
+    "<leader>ee",
+    "oif err != nil {<CR>}<Esc>Oreturn err<Esc>"
+)

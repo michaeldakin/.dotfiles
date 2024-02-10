@@ -1,9 +1,5 @@
-require('mdakin.config.options')
-require('mdakin.config.keymaps')
-
 vim.g.mapleader = ' '
 
--- Auto-install lazy.nvim if not present
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
     print('Installing lazy.nvim....')
@@ -27,7 +23,7 @@ require('lazy').setup({
     },
     checker = { enabled = true },
     install = {
-        colorscheme = { 'tokyonight', 'rose-pine', 'catppuccin' }
+        colorscheme = { 'tokyonight', 'catppuccin', 'rose-pine' }
     },
     ui = {
         size = { width = 0.8, height = 0.8 },
@@ -50,17 +46,10 @@ require('lazy').setup({
     },
 })
 
--- require('mdakin.utils.lsp')
-require('mdakin.utils.harpoon')
-require('mdakin.config.autocmds')
+-- Colour theme
+vim.cmd.colorscheme('catppuccin-macchiato')
+-- vim.cmd.colorscheme("rose-pine")
+-- vim.cmd.colorscheme("tokyonight")
 
-
-vim.paste = (function(overridden)
-    return function(lines, phase)
-        for i, line in ipairs(lines) do
-            -- Scrub ANSI color codes from paste input.
-            lines[i] = line:gsub('\27%[[0-9;mK]+', '')
-        end
-        overridden(lines, phase)
-    end
-end)(vim.paste)
+-- Call autocmds after Lazy is loaded
+require('mdakin.autocmds')
