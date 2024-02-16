@@ -29,27 +29,27 @@ require('lazy').setup({
         size = { width = 0.8, height = 0.8 },
         border = 'single',
         icons = {
-            cmd = "⌘",
-            config = "🛠 ",
-            event = "📅",
-            ft = "📂",
-            init = "⚙",
-            keys = "🗝 ",
-            plugin = "🔌",
-            runtime = "💻",
-            require = "🌙",
-            source = "📄",
-            start = "🚀",
-            task = "📌",
-            lazy = "💤 ",
+            cmd = '⌘',
+            config = '🛠 ',
+            event = '📅',
+            ft = '📂',
+            init = '⚙',
+            keys = '🗝 ',
+            plugin = '🔌',
+            runtime = '💻',
+            require = '🌙',
+            source = '📄',
+            start = '🚀',
+            task = '📌',
+            lazy = '💤 ',
         },
     },
 })
 
 -- Colour theme
-vim.cmd.colorscheme('catppuccin-macchiato')
--- vim.cmd.colorscheme("rose-pine")
--- vim.cmd.colorscheme("tokyonight")
+-- vim.cmd.colorscheme('catppuccin-macchiato')
+vim.cmd.colorscheme('rose-pine')
+-- vim.cmd.colorscheme('tokyonight')
 
 -- Call autocmds after Lazy is loaded
 require('mdakin.autocmds')

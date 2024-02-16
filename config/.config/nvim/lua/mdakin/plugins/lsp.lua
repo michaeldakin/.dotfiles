@@ -125,6 +125,7 @@ return {
             'williamboman/mason-lspconfig.nvim',
             'hrsh7th/cmp-nvim-lsp',
             "folke/neodev.nvim",
+            'j-hui/fidget.nvim',
         },
         config = function()
             local lsp_zero = require("lsp-zero")
