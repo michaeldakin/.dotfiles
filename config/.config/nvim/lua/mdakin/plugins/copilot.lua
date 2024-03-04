@@ -26,7 +26,7 @@ return {
                     keymap = {
                         jump_prev = "[[",
                         jump_next = "]]",
-                        accept = "<CR>",
+                        accept = "<C-]>", --
                         refresh = "gr",
                         open = "<M-CR>"
                     },
@@ -40,7 +40,7 @@ return {
                     auto_trigger = true,
                     debounce = 75,
                     keymap = {
-                        accept = "<C-a>",
+                        accept = "<S-Tab>",
                         accept_word = false,
                         accept_line = false,
                         next = "<C-'>",

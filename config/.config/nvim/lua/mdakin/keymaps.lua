@@ -35,9 +35,6 @@ vim.keymap.set("n", "Q", "<nop>")
 -- Open tmux-sessionizer
 vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
 
--- Format page with LSP
-vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
-
 vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
 vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
 vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
@@ -59,8 +56,10 @@ vim.keymap.set("v", ">", ">gv")
 vim.keymap.set("n", "<leader>ui", vim.show_pos, { desc = "Inspect Pos" })
 
 -- fabulous go stuff
-vim.keymap.set(
-    "n",
-    "<leader>ee",
-    "oif err != nil {<CR>}<Esc>Oreturn err<Esc>"
-)
+vim.keymap.set( "n", "<leader>ee", "oif err != nil {<CR>}<Esc>Oreturn err<Esc>")
+
+-- Format page with LSP
+vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
+
+-- Go stuff
+vim.keymap.set("n", "<leader>gr", "<cmd>GoRename<CR>")
