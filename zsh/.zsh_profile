@@ -2,7 +2,7 @@
 VIM="nvim"
 alias vim="nvim"
 alias ll="ls -latr"
-alias dirs="dirs -v"
+alias dir="dirs -v"
 alias airport="/System/Library/PrivateFrameworks/Apple80211.framework/Versions/A/Resources/airport"
 alias qo="~/.local/bin/quickopen"
 alias gqo="~/.local/bin/go-quickopen"
@@ -10,7 +10,7 @@ alias wm="/usr/local/bin/whatmask"
 alias tmux-sessionizer="~/.local/bin/tmux-sessionizer"
 
 # who needs hostnames
-alias plex="ssh mike@172.16.1.11"
+alias plex="ssh mike@172.16.1.10"
 alias media="ssh mike@172.16.1.12"
 
 # Trying this stuff out but eh?
