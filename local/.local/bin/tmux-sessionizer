@@ -3,7 +3,7 @@
 if [[ $# -eq 1 ]]; then
     selected=$1 && [[ "$selected" == '.' ]] && selected="$PWD"
 else
-    selected=$(find ~/.config ~/work ~/personal ~/personal/go ~/personal/js ~/Documents/Cases -mindepth 1 -maxdepth 1 -type d | fzf)
+    selected=$(find ~ ~/.config ~/work ~/personal ~/personal/go ~/personal/js ~/Documents/Cases -mindepth 1 -maxdepth 1 -type d | fzf)
 fi
 
 if [[ -z $selected ]]; then
