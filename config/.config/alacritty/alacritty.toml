@@ -1,7 +1,7 @@
 # https://alacritty.org/config-alacritty.html
 # Alacrity 0.13 moved from .YML to .TOML (yay)
 # import = ["~/.config/alacritty/catppuccin-macchiato.toml"]
-import = ["~/.config/alacritty/rose-pine.toml"]
+# import = ["~/.config/alacritty/rose-pine.toml"]
 
 live_config_reload = true
 
