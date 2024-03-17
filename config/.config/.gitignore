@@ -1,2 +1,2 @@
-tmux/.tmux/plugins/
+tmux/.tmux/plugins/*
 git/.gitconfig
