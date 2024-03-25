@@ -3,3 +3,5 @@
 	email = 4318690+michaeldakin@users.noreply.github.com
 [credential]
 	helper = /usr/local/share/gcm-core/git-credential-manager
+[init]
+	defaultBranch = main

@@ -132,6 +132,7 @@ return {
             lsp_zero.extend_lspconfig()
 
             lsp_zero.on_attach(function(client, bufnr)
+                lsp_zero.default_keymaps({buffer = bufnr})
                 if client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint ~= nil then
                     vim.keymap.set("n", "<leader>in", function()
                         vim.lsp.inlay_hint.enable(bufnr, not vim.lsp.inlay_hint.is_enabled(bufnr)) -- toggle

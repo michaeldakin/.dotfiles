@@ -23,13 +23,14 @@ return {
         build = ':lua require("go.install").update_all_sync()' -- if you need to install/update all binaries
     },
     {
-        'mfussenegger/nvim-dap',
+        "mfussenegger/nvim-dap",
         dependencies = {
             "ray-x/go.nvim",
-            'rcarriga/nvim-dap-ui',
-            'jay-babu/mason-nvim-dap.nvim',
-            'leoluz/nvim-dap-go',
+            "rcarriga/nvim-dap-ui",
+            "jay-babu/mason-nvim-dap.nvim",
+            "leoluz/nvim-dap-go",
             "theHamsta/nvim-dap-virtual-text",
+            "nvim-neotest/nvim-nio",
         },
         config = function()
             local dap = require('dap')
